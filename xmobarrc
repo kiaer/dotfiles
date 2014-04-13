@@ -1,0 +1,33 @@
+Config { font = "-misc-fixed-*-*-*-*-20-*-*-*-*-*-*-*"
+       , borderColor = "black"
+       , border = TopB
+       , bgColor = "#333333"
+       , fgColor = "grey"
+       , position = Bottom
+       , lowerOnStart = True
+       , persistent = False
+       , hideOnStart = False
+       , commands = [ Run Network "wlp3s0" ["-L","0","-H","32","--normal","green","--high","red"] 10
+             , Run Wireless "wlp3s0"
+             ["-L","30"
+             ,"--low","red"
+             ] 50
+             , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
+             , Run Memory ["-t","Mem: <usedratio>%"] 10
+             , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
+             , Run BatteryP ["BAT0"]
+             ["-t", "<acstatus>"
+             ,"-L", "25"
+             ,"-l", "red"
+             ,"--"
+             ,"-O", "Bat: <fc=green><left>%</fb>"
+             ,"-o", "Bat: <left>% (<timeleft>)"
+             ] 100
+	     , Run StdinReader
+             , Run Com"/home/christian/scripts/volume.sh"[]"volume" 10
+
+             ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template ="%StdinReader% }{ %battery% | %cpu% | %memory% | %volume% | %wlp3s0% %wlp3s0wi% | <fc=#ee9a00>%date%</fc>"
+}
